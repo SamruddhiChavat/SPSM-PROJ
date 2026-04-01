@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Guard Portal | Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ece9ff, #f8f6ff);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+}
+
+/* ================= Sidebar ================= */
+
+.sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, #6a5acd, #7e57c2);
+    padding: 50px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+}
+
+.brand {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 35px;
+    letter-spacing: 0.5px;
+}
+
+.nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.nav-btn {
+    padding: 14px 18px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s ease;
+    background: rgba(255,255,255,0.08);
+}
+
+.nav-btn:hover {
+    background: rgba(255,255,255,0.22);
+    transform: translateX(5px);
+}
+
+.signout-btn {
+    padding: 14px;
+    border-radius: 14px;
+    text-align: center;
+    text-decoration: none;
+    background: white;
+    color: #6a5acd;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.signout-btn:hover {
+    background: #ece9ff;
+    transform: scale(1.03);
+}
+
+/* ================= Main ================= */
+
+.main {
+    flex: 1;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h2 {
+    margin: 0;
+    font-weight: 600;
+    color: #6a5acd;
+}
+
+.header small {
+    color: #777;
+}
+
+/* ================= Stats ================= */
+
+.stats-row {
+    display: flex;
+    gap: 35px;
+}
+
+.stat-card {
+    flex: 1;
+    padding: 35px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 18px 45px rgba(170,150,255,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 25px 55px rgba(170,150,255,0.3);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.08rem;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.excellent { color: #4caf50; }
+.good { color: #ffa726; }
+.poor { color: #ef5350; }
+
+/* ================= Activity ================= */
+
+.activity-card {
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 22px;
+    padding: 35px;
+    box-shadow: 0 18px 45px rgba(170,150,255,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.activity-title {
+    font-weight: 600;
+    color: #6a5acd;
+    font-size: 1.05rem;
+}
+
+.activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: #faf9ff;
+    border-radius: 14px;
+    transition: 0.3s ease;
+}
+
+.activity-item:hover {
+    background: #f1ecff;
+    transform: scale(1.01);
+}
+
+/* ================= Responsive ================= */
+
+@media (max-width: 900px) {
+    body { flex-direction: column; }
+    .sidebar { width: 100%; flex-direction: row; align-items: center; padding: 20px; }
+    .stats-row { flex-direction: column; }
+    .main { padding: 40px; }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div>
+        <div class="brand">🛡 Guard Portal</div>
+
+        <div class="nav-group">
+            <a href="/scanner?name={{ name }}" class="nav-btn">
+                Security Scanner
+                
+            </a>
+
+            <a href="/encryption?name={{ name }}" class="nav-btn">
+                Encryption Center
+                
+            </a>
+        </div>
+    </div>
+
+    <a href="/login" class="signout-btn">
+        Sign Out
+    </a>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+    <div class="header">
+        <h2>Welcome, {{ name }}</h2>
+        <small>Security Intelligence Dashboard</small>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <span class="stat-label">Total Scans Performed</span>
+            <span class="stat-value">
+                {{ total if total else 0 }}
+            </span>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-label">System Security Score</span>
+            <span class="stat-value {% if score > 70 %}excellent{% elif score > 40 %}good{% else %}poor{% endif %}">
+                {{ score if score else 0 }}%
+            </span>
+        </div>
+    </div>
+
+    <!-- Activity -->
+    <div class="activity-card">
+        <div class="activity-title">Recent Scan Activity</div>
+
+        {% for item in activity %}
+        <div class="activity-item">
+            <span>{{ item[0] }}</span>
+            <span class="badge {% if item[1] == 'Malicious' %}bg-danger{% else %}bg-success{% endif %}">
+                {{ item[1] }}
+            </span>
+        </div>
+        {% else %}
+        <p class="text-muted small">No recent activity available.</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>
