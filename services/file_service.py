@@ -4,7 +4,7 @@ import time
 import streamlit as st
 
 # Replace with your actual key from VirusTotal
-VT_API_KEY = "abeff87ab76d18e12e40a45b36acd93c0c55f9081db91809b86911afeb29a4a7"
+VT_API_KEY = "add your api key "
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 Megabytes
